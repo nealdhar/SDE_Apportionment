@@ -2,8 +2,7 @@
 
 ## Authors
 
-* Author 1 - netID
-* Author 2 - netID
-* Author 3 - netID
-
+* Samira Samadi - ss5ug
+* Neal Dhar - nd2pvz
+* 
 ## Description on how to use your code
