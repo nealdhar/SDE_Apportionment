@@ -4,32 +4,21 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ApportionmentStrategyFactory {
-    private final List<String> arguments;
     private Configuration config;
 
-    public ApportionmentStrategyFactory(String[] args) {
-        this(Arrays.asList(args));
-    }
 
-    public ApportionmentStrategyFactory(List<String> arguments) {
-        if (arguments.size() < 1) {
-            throw new IllegalArgumentException("Error: No arguments were included at runtime. Arguments expected\n" +
-                    "statePopulationFilename [number of representatives] [--hamilton]");
-        }
-        this.arguments = arguments;
-    }
-    private void setApportionmentStrategy() {
-        if (arguments.contains("hamilton")) {
+    private void setApportionmentStrategy(String apportionmentName) {
+        if (apportionmentName.equals("hamilton")) {
             config.setApportionmentStrategy(new HamiltonApportionmentStrategy());
         }
-        if (arguments.contains("jefferson")) {
+        if (apportionmentName.contains("jefferson")) {
             config.setApportionmentStrategy(new JeffersonApportionmentStrategy());
         }
     }
-    public ApportionmentStrategy getApportionmentStrategy() {
-        ApportionmentStrategyFactory factory = new ApportionmentStrategyFactory(arguments);
-        factory.setApportionmentStrategy();
-        ApportionmentStrategy apportionmentStrategy = factory.getApportionmentStrategy();
+    public ApportionmentStrategy getApportionmentStrategy(String apportionmentName) {
+        ApportionmentStrategyFactory factory = new ApportionmentStrategyFactory();
+        factory.setApportionmentStrategy(apportionmentName);
+        ApportionmentStrategy apportionmentStrategy = factory.getApportionmentStrategy(apportionmentName);
         return apportionmentStrategy ;
     }
 }
