@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ApportionmentStrategyFactory {
-    private Configuration config;
-
 
     public ApportionmentStrategy getApportionmentStrategy(String apportionmentName) {
         if (apportionmentName.equals("hamilton")) {

@@ -17,7 +17,7 @@ public class StateReaderFactory {
 
 
 
-    private static StateReader getStateReader(String filename){
+    public StateReader getStateReader(String filename){
         StateReaderFactory factory = new StateReaderFactory();
         factory.setStateReaderFromFilename(filename);
         StateReader stateReader = factory.getStateReader(filename);
