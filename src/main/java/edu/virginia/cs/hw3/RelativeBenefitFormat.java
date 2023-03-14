@@ -42,6 +42,8 @@ public class RelativeBenefitFormat extends ApportionmentFormat{
         return finalRepresentativeValue - rawRepresentativeValue;
     }
 
+    //https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html
+
     private String getRelativeBenefitStringForState(State state) {
         double divisor = getDivisor();
         DecimalFormat decimalFormat = new DecimalFormat("+#.000; -#.000");
