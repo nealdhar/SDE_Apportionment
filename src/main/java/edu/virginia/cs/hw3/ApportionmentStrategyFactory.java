@@ -7,18 +7,14 @@ public class ApportionmentStrategyFactory {
     private Configuration config;
 
 
-    private void setApportionmentStrategy(String apportionmentName) {
-        if (apportionmentName.equals("hamilton")) {
-            config.setApportionmentStrategy(new HamiltonApportionmentStrategy());
-        }
-        if (apportionmentName.contains("jefferson")) {
-            config.setApportionmentStrategy(new JeffersonApportionmentStrategy());
-        }
-    }
     public ApportionmentStrategy getApportionmentStrategy(String apportionmentName) {
-        ApportionmentStrategyFactory factory = new ApportionmentStrategyFactory();
-        factory.setApportionmentStrategy(apportionmentName);
-        ApportionmentStrategy apportionmentStrategy = factory.getApportionmentStrategy(apportionmentName);
-        return apportionmentStrategy ;
+        if (apportionmentName.equals("hamilton")) {
+            return new HamiltonApportionmentStrategy();
+        }
+        if (apportionmentName.equals("jefferson")) {
+            return new JeffersonApportionmentStrategy();
+        } else {
+            return new HuntingtonHillApportionmentStrategy();
+        }
     }
 }

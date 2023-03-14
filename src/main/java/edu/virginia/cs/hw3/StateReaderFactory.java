@@ -5,23 +5,18 @@ public class StateReaderFactory {
 
     private void setStateReaderFromFilename(String filename) {
         if (filename.toLowerCase().endsWith(".csv")) {
-            setConfigurationToCSVReader(filename);
+            setStateReaderFromFilename(filename);
         }
         if (filename.toLowerCase().endsWith(".xlsx")) {
-            setConfigurationToXLSXReader(filename);
+            setStateReaderFromFilename(filename);
         } else {
             throw new IllegalArgumentException("Error: invalid file type. The system currently supports:\n" +
                     "\t.csv, .xlsx");
         }
     }
-    private void setConfigurationToCSVReader(String filename) {
 
-        config.setStateReader(new CSVStateReader(filename));
-    }
 
-    private void setConfigurationToXLSXReader(String filename) {
-        config.setStateReader(new ExcelStateReader(filename));
-    }
+
     private static StateReader getStateReader(String filename){
         StateReaderFactory factory = new StateReaderFactory();
         factory.setStateReaderFromFilename(filename);
