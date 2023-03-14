@@ -3,8 +3,6 @@ package edu.virginia.cs.hw3;
 import java.util.*;
 
 public class HuntingtonHillApportionmentStrategy extends ApportionmentStrategy {
-    private List<State> stateList;
-    private int targetRepresentatives;
     private Apportionment apportionment;
 
     // huntingtonHill method is from homework 1C
@@ -16,15 +14,10 @@ public class HuntingtonHillApportionmentStrategy extends ApportionmentStrategy {
     }
 
     private Apportionment getApportionmentIntValue() {
+        apportionment = new Apportionment();
         apportionment = assignOneRepresentative();
         assignRemainingRepsByPriority();
         return apportionment;
-    }
-
-    private void initializeFields(List<State> stateList, int representatives) {
-        this.stateList = stateList;
-        targetRepresentatives = representatives;
-        apportionment = new Apportionment();
     }
     private Apportionment assignOneRepresentative() {
         for(State state : stateList) {
@@ -33,7 +26,7 @@ public class HuntingtonHillApportionmentStrategy extends ApportionmentStrategy {
         return apportionment;
     }
     private void assignRemainingRepsByPriority() {
-        while (getRepsLeftToAssign() > 0)  {
+        while (getRepsLeftToAllocate() > 0)  {
             State highestPriorityState = getHighestPriority();
             apportionment.addRepresentativesToState(highestPriorityState, 1);
         }
@@ -41,7 +34,7 @@ public class HuntingtonHillApportionmentStrategy extends ApportionmentStrategy {
     private State getHighestPriority() {
         double highestPriority = 0.0;
         State highestPriorityState = null;
-        for(State state : stateList) {
+        for (State state : stateList) {
             int n = apportionment.getRepresentativesForState(state);
             double priority = state.getPopulation() / (Math.sqrt(n * (n + 1)));
             if (priority > highestPriority) {
@@ -52,9 +45,9 @@ public class HuntingtonHillApportionmentStrategy extends ApportionmentStrategy {
         return highestPriorityState;
     }
 
-    private int getRepsLeftToAssign() {
-        int assignedRepresentatives = apportionment.getAllocatedRepresentatives();
-        return targetRepresentatives - assignedRepresentatives;
+    private int getRepsLeftToAllocate() {
+        int allocatedRepresentatives = apportionment.getAllocatedRepresentatives();
+        return targetRepresentatives - allocatedRepresentatives;
     }
 
 }
