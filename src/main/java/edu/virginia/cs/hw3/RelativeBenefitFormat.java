@@ -4,18 +4,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class RelativeBenefitFormat extends ApportionmentFormat{
+public class RelativeBenefitFormat extends ApportionmentFormat {
     private Apportionment apportionment;
-    private double divisor;
+
     @Override
     public String getApportionmentString(Apportionment apportionment) {
         this.apportionment = apportionment;
         return getBenefitApportionmentString();
-    }
-
-    private double getDivisor() {
-        int totalPopulation = getTotalPopulation();
-        return (double) totalPopulation / apportionment.getAllocatedRepresentatives();
     }
 
     private int getTotalPopulation() {
@@ -28,15 +23,22 @@ public class RelativeBenefitFormat extends ApportionmentFormat{
     private String getBenefitApportionmentString() {
         return apportionment.getStateSet().stream()
                 .sorted((s1, s2) -> {
-                    double relativeBenefit1 = getRelativeBenefit(s1, getDivisor());
-                    double relativeBenefit2 = getRelativeBenefit(s2, getDivisor());
+                    double relativeBenefit1 = getRelativeBenefit(s1);
+                    double relativeBenefit2 = getRelativeBenefit(s2);
                     return Double.compare(relativeBenefit2, relativeBenefit1);
                 })
                 .map(this::getRelativeBenefitStringForState)
                 .collect(Collectors.joining("\n"));
     }
 
-    private double getRelativeBenefit(State state, double divisor) {
+    protected double getDivisor() {
+        int totalPopulation = getTotalPopulation();
+        int totalNumRepresentatives = apportionment.getAllocatedRepresentatives();
+        return (double) totalPopulation /totalNumRepresentatives;
+    }
+
+    private double getRelativeBenefit(State state) {
+        double divisor =  getDivisor();
         int finalRepresentativeValue = apportionment.getRepresentativesForState(state);
         double rawRepresentativeValue = state.getPopulation() / divisor;
         return finalRepresentativeValue - rawRepresentativeValue;
@@ -45,11 +47,10 @@ public class RelativeBenefitFormat extends ApportionmentFormat{
     //https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html
 
     private String getRelativeBenefitStringForState(State state) {
-        double divisor = getDivisor();
-        DecimalFormat decimalFormat = new DecimalFormat("+#.000; -#.000");
+        DecimalFormat decimalFormat = new DecimalFormat("+0.000; -0.000");
         String stateName = state.getName();
         int finalRepresentativeValue = apportionment.getRepresentativesForState(state);
-        double relativeBenefit = getRelativeBenefit(state, divisor);
+        double relativeBenefit = getRelativeBenefit(state);
         return stateName + " - " + finalRepresentativeValue
                 +" - " + decimalFormat.format(relativeBenefit);
     }
