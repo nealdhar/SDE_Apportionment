@@ -31,32 +31,10 @@ public class ArgumentsHandler {
     }
 
 
-    private void checkForRepresentativeCount() {
-        if (arguments.size() < 2) {
-            return;
-        }
-        try {
-            int representativeCount = Integer.parseInt(arguments.get(REPRESENTATIVES_INDEX));
-            if (representativeCount <= 0) {
-                throw new IllegalArgumentException("Error: Invalid representative count : " + representativeCount + " - number must be positive");
-            }
-            config.setRepresentatives(representativeCount);
-        } catch (NumberFormatException ignored) {
-        }
-    }
-
 
     private boolean filenameExists(String filename) {
         File file = new File(filename);
         return file.exists();
-    }
-
-    private void setConfigurationToCSVReader(String filename) {
-        config.setStateReader(new CSVStateReader(filename));
-    }
-
-    private void setConfigurationToXLSXReader(String filename) {
-        config.setStateReader(new ExcelStateReader(filename));
     }
 
     private void readFileType(String filename) {
@@ -72,10 +50,10 @@ public class ArgumentsHandler {
                 String long_flag = arguments.get(i);
 
                 if (long_flag.equals("--algorithm")) {
-                    String apportionmentStrategy = flagged_argument;
+                    String apportionmentName = flagged_argument;
                 }
                 if (long_flag.equals("--format")) {
-                    String apportionmentFormat = flagged_argument;
+                    String format = flagged_argument;
                 }
                 if (long_flag.equals("--reps")) {
                     String num_Reps = flagged_argument;
@@ -88,20 +66,32 @@ public class ArgumentsHandler {
 
                 for (int j = 1; j < short_flag_list.length; j++) {
                     if (short_flag_list[j] == 'a') {
-                        String apportionmentStrategy = flagged_argument;
+                        String apportionmentName = flagged_argument;
                         i++;
                     }
                     if (short_flag_list[j] == 'f') {
-                        String apportionmentStrategy = flagged_argument;
+                        String format = flagged_argument;
                         i++;
                     }
                     if (short_flag_list[j] == 'r') {
-                        String apportionmentStrategy = flagged_argument;
+                        String num_Reps = flagged_argument;
                         i++;
                     }
                 }
             }
 
         }
+    }
+    private void setNumberOfReps(String num_Reps) {
+        int numReps = Integer.parseInt(num_Reps);
+        config.setRepresentatives(numReps);
+    }
+    private void setApportionmentStrategy(String apportionmentName) {
+        ApportionmentStrategyFactory apportionmentStrategyFactory = new ApportionmentStrategyFactory();
+        ApportionmentStrategy apportionmentStrategy = apportionmentStrategyFactory.getApportionmentStrategy(apportionmentName);
+    }
+    private void setApportionmentFormat(String format) {
+        ApportionmentFormatFactory apportionmentFormatFactory = new ApportionmentFormatFactory();
+        ApportionmentFormat apportionmentFormat = apportionmentFormatFactory.getApportionmentFormat(format);
     }
 }
