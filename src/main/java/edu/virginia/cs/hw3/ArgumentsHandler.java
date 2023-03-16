@@ -64,31 +64,40 @@ public class ArgumentsHandler {
         StateReader fileReader = fileReaderFactory.getStateReader(filename);
     }
 
-    private void readCommandLine() {
+    public void readCommandLineFlags() {
         for (int i = 0; i < arguments.size(); i++) {
+            String flagged_argument = arguments.get(i + 1);
 
             if (arguments.get(i).startsWith("--")) {
                 String long_flag = arguments.get(i);
+
                 if (long_flag.equals("--algorithm")) {
-                }
-                if (long_flag.equals("--reps")) {
+                    String apportionmentStrategy = flagged_argument;
                 }
                 if (long_flag.equals("--format")) {
+                    String apportionmentFormat = flagged_argument;
                 }
-
+                if (long_flag.equals("--reps")) {
+                    String num_Reps = flagged_argument;
+                }
             }
+
             if (arguments.get(i).startsWith("-")) {
                 String short_flag = arguments.get(i);
                 char[] short_flag_list = short_flag.toCharArray();
-                for (int j = 1; j < short_flag_list.length; j++) {
-                    if (short_flag_list[j] == 'r') {
 
+                for (int j = 1; j < short_flag_list.length; j++) {
+                    if (short_flag_list[j] == 'a') {
+                        String apportionmentStrategy = flagged_argument;
+                        i++;
                     }
                     if (short_flag_list[j] == 'f') {
-
+                        String apportionmentStrategy = flagged_argument;
+                        i++;
                     }
-                    if (short_flag_list[j] == 'a') {
-
+                    if (short_flag_list[j] == 'r') {
+                        String apportionmentStrategy = flagged_argument;
+                        i++;
                     }
                 }
             }

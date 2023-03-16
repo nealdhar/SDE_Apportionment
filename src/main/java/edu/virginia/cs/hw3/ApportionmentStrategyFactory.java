@@ -5,11 +5,11 @@ import java.util.List;
 
 public class ApportionmentStrategyFactory {
 
-    public ApportionmentStrategy getApportionmentStrategy(String apportionmentName) {
-        if (apportionmentName.equals("hamilton")) {
+    public ApportionmentStrategy getApportionmentStrategy(String apportionmentStrategy) {
+        if (apportionmentStrategy.equals("hamilton")) {
             return new HamiltonApportionmentStrategy();
         }
-        if (apportionmentName.equals("jefferson")) {
+        if (apportionmentStrategy.equals("jefferson")) {
             return new JeffersonApportionmentStrategy();
         } else {
             return new HuntingtonHillApportionmentStrategy();
