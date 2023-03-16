@@ -22,23 +22,12 @@ public class ArgumentsHandler {
         this(Arrays.asList(args));
     }
 
-    public Configuration getConfiguration() {
-        setDefaultConfiguration();
-        configureStateReader();
-        checkForRepresentativeCount();
-        return config;
-    }
 
     private void setDefaultConfiguration() {
         config = new Configuration();
         config.setApportionmentStrategy(new HamiltonApportionmentStrategy());
         config.setRepresentatives(435);
         config.setApportionmentFormat(new AlphabeticalApportionmentFormat());
-    }
-
-    private void configureStateReader() {
-        String filename = arguments.get(FILENAME_INDEX);
-        setStateReaderFromFilename(filename);
     }
 
 
@@ -56,16 +45,6 @@ public class ArgumentsHandler {
         }
     }
 
-    private void setStateReaderFromFilename(String filename) {
-        if (filename.toLowerCase().endsWith(".csv")) {
-            setConfigurationToCSVReader(filename);
-        } else if (filename.toLowerCase().endsWith(".xlsx")) {
-            setConfigurationToXLSXReader(filename);
-        } else {
-            throw new IllegalArgumentException("Error: invalid file type. The system currently supports:\n" +
-                    "\t.csv, .xlsx");
-        }
-    }
 
     private boolean filenameExists(String filename) {
         File file = new File(filename);
@@ -78,5 +57,42 @@ public class ArgumentsHandler {
 
     private void setConfigurationToXLSXReader(String filename) {
         config.setStateReader(new ExcelStateReader(filename));
+    }
+
+    private void readFileType(String filename) {
+        StateReaderFactory fileReaderFactory = new StateReaderFactory();
+        StateReader fileReader = fileReaderFactory.getStateReader(filename);
+    }
+
+    private void readCommandLine() {
+        for (int i = 0; i < arguments.size(); i++) {
+
+            if (arguments.get(i).startsWith("--")) {
+                String long_flag = arguments.get(i);
+                if (long_flag.equals("--algorithm")) {
+                }
+                if (long_flag.equals("--reps")) {
+                }
+                if (long_flag.equals("--format")) {
+                }
+
+            }
+            if (arguments.get(i).startsWith("-")) {
+                String short_flag = arguments.get(i);
+                char[] short_flag_list = short_flag.toCharArray();
+                for (int j = 1; j < short_flag_list.length; j++) {
+                    if (short_flag_list[j] == 'r') {
+
+                    }
+                    if (short_flag_list[j] == 'f') {
+
+                    }
+                    if (short_flag_list[j] == 'a') {
+
+                    }
+                }
+            }
+
+        }
     }
 }
