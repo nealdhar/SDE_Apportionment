@@ -1,27 +1,16 @@
 package edu.virginia.cs.hw3;
 
 public class StateReaderFactory {
-    private Configuration config;
-
-    private void setStateReaderFromFilename(String filename) {
+    public StateReader getStateReader(String filename) {
         if (filename.toLowerCase().endsWith(".csv")) {
-            setStateReaderFromFilename(filename);
+            return new CSVStateReader(filename);
         }
         if (filename.toLowerCase().endsWith(".xlsx")) {
-            setStateReaderFromFilename(filename);
+            return new ExcelStateReader(filename);
         } else {
             throw new IllegalArgumentException("Error: invalid file type. The system currently supports:\n" +
                     "\t.csv, .xlsx");
         }
-    }
-
-
-
-    public StateReader getStateReader(String filename){
-        StateReaderFactory factory = new StateReaderFactory();
-        factory.setStateReaderFromFilename(filename);
-        StateReader stateReader = factory.getStateReader(filename);
-    return stateReader;
     }
 
 }

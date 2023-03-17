@@ -1,12 +1,10 @@
 package edu.virginia.cs.hw3;
 
 import java.util.*;
-import java.io.*;
 
 public class ArgumentsHandler {
 
     public static final int FILENAME_INDEX = 0;
-    public static final int REPRESENTATIVES_INDEX = 1;
     private final List<String> arguments;
     private Configuration config;
 
@@ -22,24 +20,18 @@ public class ArgumentsHandler {
         this(Arrays.asList(args));
     }
 
+    public Configuration getConfiguration() {
+        setDefaultConfiguration();
+        configureStateReader();
+        readCommandLineFlags();
+        return config;
+    }
 
     private void setDefaultConfiguration() {
         config = new Configuration();
-        config.setApportionmentStrategy(new HamiltonApportionmentStrategy());
+        config.setApportionmentStrategy(new HuntingtonHillApportionmentStrategy());
         config.setRepresentatives(435);
         config.setApportionmentFormat(new AlphabeticalApportionmentFormat());
-    }
-
-
-
-    private boolean filenameExists(String filename) {
-        File file = new File(filename);
-        return file.exists();
-    }
-
-    private void readFileType(String filename) {
-        StateReaderFactory fileReaderFactory = new StateReaderFactory();
-        StateReader fileReader = fileReaderFactory.getStateReader(filename);
     }
 
     public void readCommandLineFlags() {
@@ -51,12 +43,15 @@ public class ArgumentsHandler {
 
                 if (long_flag.equals("--algorithm")) {
                     String apportionmentName = flagged_argument;
+                    configureStrategy(apportionmentName);
                 }
                 if (long_flag.equals("--format")) {
                     String format = flagged_argument;
+                    configureFormat(format);
                 }
                 if (long_flag.equals("--reps")) {
                     String num_Reps = flagged_argument;
+                    setNumReps(num_Reps);
                 }
             }
 
@@ -67,14 +62,17 @@ public class ArgumentsHandler {
                 for (int j = 1; j < short_flag_list.length; j++) {
                     if (short_flag_list[j] == 'a') {
                         String apportionmentName = flagged_argument;
+                        configureStrategy(apportionmentName);
                         i++;
                     }
                     if (short_flag_list[j] == 'f') {
                         String format = flagged_argument;
+                        configureFormat(format);
                         i++;
                     }
                     if (short_flag_list[j] == 'r') {
                         String num_Reps = flagged_argument;
+                        setNumReps(num_Reps);
                         i++;
                     }
                 }
@@ -82,16 +80,28 @@ public class ArgumentsHandler {
 
         }
     }
-    private void setNumberOfReps(String num_Reps) {
-        int numReps = Integer.parseInt(num_Reps);
-        config.setRepresentatives(numReps);
+
+    private int setNumReps(String arg) {
+        int numReps = Integer.parseInt(arg);
+        return numReps;
+
     }
-    private void setApportionmentStrategy(String apportionmentName) {
-        ApportionmentStrategyFactory apportionmentStrategyFactory = new ApportionmentStrategyFactory();
-        ApportionmentStrategy apportionmentStrategy = apportionmentStrategyFactory.getApportionmentStrategy(apportionmentName);
+
+    private void configureStateReader() {
+        String filename = arguments.get(FILENAME_INDEX);
+        StateReaderFactory factory = new StateReaderFactory();
+        StateReader stateReader = factory.getStateReader(filename);
+        config.setStateReader(stateReader);
     }
-    private void setApportionmentFormat(String format) {
-        ApportionmentFormatFactory apportionmentFormatFactory = new ApportionmentFormatFactory();
-        ApportionmentFormat apportionmentFormat = apportionmentFormatFactory.getApportionmentFormat(format);
+
+    private void configureStrategy(String apportionmentName) {
+        ApportionmentStrategyFactory factory = new ApportionmentStrategyFactory();
+        ApportionmentStrategy strategy = factory.getApportionmentStrategy(apportionmentName);
+        config.setApportionmentStrategy(strategy);
+    }
+    private void configureFormat(String format) {
+        ApportionmentFormatFactory factory = new ApportionmentFormatFactory();
+        ApportionmentFormat apportionmentFormat = factory.getApportionmentFormat(format);
+        config.setApportionmentFormat(apportionmentFormat);
     }
 }
