@@ -35,13 +35,13 @@ public class ArgumentsHandler {
     }
     private void parseOptionalArguments() {
         for (int i = 1; i < arguments.size(); i++) {
-            String arg = arguments.get(i);
-            if (arg.startsWith("--")) {
-                i = parseLongFlags(i, arg.substring(2));
-            } else if (arg.startsWith("-")) {
-                i = parseShortFlags(i, arg.substring(1));
+            String argument = arguments.get(i);
+            if (argument.startsWith("--")) {
+                i = parseLongFlags(i, argument.substring(2));
+            } else if (argument.startsWith("-")) {
+                i = parseShortFlags(i, argument.substring(1));
             } else {
-                throw new IllegalArgumentException("Error: Unexpected argument " + arg);
+                throw new IllegalArgumentException("Error: Unexpected argument " + argument);
             }
         }
     }
@@ -51,7 +51,7 @@ public class ArgumentsHandler {
             case "reps" -> index = setNumReps(index);
             case "format" -> index = configureFormat(index);
             case "algorithm" -> index = configureStrategy(index);
-            default -> throw new IllegalArgumentException("Error: Invalid argument --" + flag);
+            default -> throw new IllegalArgumentException("Error: Invalid flag --" + flag);
         }
         return index;
     }
@@ -63,7 +63,7 @@ public class ArgumentsHandler {
                 case 'r' -> index = setNumReps(index);
                 case 'f' -> index = configureFormat(index);
                 case 'a' -> index = configureStrategy(index);
-                default -> throw new IllegalArgumentException("Error: Invalid argument -" + c);
+                default -> throw new IllegalArgumentException("Error: Invalid flag -" + c);
             }
         }
         return index;
@@ -113,7 +113,7 @@ public class ArgumentsHandler {
         int numStates = stateReader.getStates().size();
         if (config.getApportionmentStrategy() instanceof HuntingtonHillApportionmentStrategy) {
             if (config.getRepresentatives() < numStates) {
-                throw new IllegalArgumentException("Error: Huntington-Hill method requires at least as many representatives as states");
+                throw new IllegalArgumentException("Error: Huntington-Hill method requires at least as many representatives as states. Needs at least " + numStates + " number of representatives.");
             }
         }
     }
