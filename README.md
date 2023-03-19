@@ -6,7 +6,7 @@
 * Neal Dhar - nd2pvz
 
 ## Description on how to use your code
-Copy the .git link from the GitHub repository and paste the link in IntelliJ (New --> Project From Version Control --> Github)
+* Copy the .git link from the GitHub repository and paste the link in IntelliJ (New --> Project From Version Control --> Github)
 * Open "Terminal" tab at the bottom and type *./gradlew build* to generate .jar file in build/libs/
 * Drag csv files to be in the same place as the .jar file: build/libs/
 * To run jar file, type in terminal: java -jar build/libs/Apportionment.jar build/libs/fileName.csv *optional flags and arguments*
