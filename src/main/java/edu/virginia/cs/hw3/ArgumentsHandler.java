@@ -110,5 +110,11 @@ public class ArgumentsHandler {
         StateReaderFactory factory = new StateReaderFactory();
         StateReader stateReader = factory.getStateReader(filename);
         config.setStateReader(stateReader);
+        int numStates = stateReader.getStates().size();
+        if (config.getApportionmentStrategy() instanceof HuntingtonHillApportionmentStrategy) {
+            if (config.getRepresentatives() < numStates) {
+                throw new IllegalArgumentException("Error: Huntington-Hill method requires at least as many representatives as states");
+            }
+        }
     }
 }
