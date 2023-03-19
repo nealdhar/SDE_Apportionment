@@ -18,13 +18,13 @@ public class JeffersonApportionmentStrategy extends ApportionmentStrategy {
     }
 
     protected void changeDivisor() {
-        boolean NoRemainingReps = false;
-        while (!NoRemainingReps) {
+        boolean noRemainingReps = false;
+        while (!noRemainingReps) {
             decimalApportionment = getDecimalApportionment(divisor);
             apportionment = getFirstPassApportionment();
             int allocatedReps = apportionment.getAllocatedRepresentatives();
             if (allocatedReps == targetRepresentatives) {
-                NoRemainingReps = true;
+                noRemainingReps = true;
             } else if (allocatedReps < targetRepresentatives) {
                 divisor -= 0.1;
             } else {

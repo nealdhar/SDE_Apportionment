@@ -22,16 +22,12 @@ public class RelativeBenefitFormat extends ApportionmentFormat {
     }
     private String getBenefitApportionmentString() {
         return apportionment.getStateSet().stream()
-                .sorted((s1, s2) -> {
-                    double relativeBenefit1 = getRelativeBenefit(s1);
-                    double relativeBenefit2 = getRelativeBenefit(s2);
-                    return Double.compare(relativeBenefit2, relativeBenefit1);
-                })
+                .sorted((s1, s2) -> Double.compare(getRelativeBenefit(s2), getRelativeBenefit(s1)))
                 .map(this::getRelativeBenefitStringForState)
                 .collect(Collectors.joining("\n"));
     }
 
-    protected double getDivisor() {
+    private double getDivisor() {
         int totalPopulation = getTotalPopulation();
         int totalNumRepresentatives = apportionment.getAllocatedRepresentatives();
         return (double) totalPopulation /totalNumRepresentatives;
@@ -54,6 +50,4 @@ public class RelativeBenefitFormat extends ApportionmentFormat {
         return stateName + " - " + finalRepresentativeValue
                 +" - " + decimalFormat.format(relativeBenefit);
     }
-
-
 }

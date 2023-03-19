@@ -47,6 +47,4 @@ public class HamiltonApportionmentStrategy extends ApportionmentStrategy{
         int allocatedRepresentatives = apportionment.getAllocatedRepresentatives();
         return targetRepresentatives - allocatedRepresentatives;
     }
-
-
 }

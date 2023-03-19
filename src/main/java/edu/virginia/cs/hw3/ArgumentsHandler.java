@@ -41,7 +41,7 @@ public class ArgumentsHandler {
             } else if (argument.startsWith("-")) {
                 i = parseShortFlags(i, argument.substring(1));
             } else {
-                throw new IllegalArgumentException("Error: Unexpected argument " + argument);
+                throw new IllegalArgumentException("Error: Illegal argument " + argument);
             }
         }
     }
