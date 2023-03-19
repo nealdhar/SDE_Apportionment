@@ -79,7 +79,7 @@ public class ArgumentsHandler {
             config.setRepresentatives(numReps);
             return index + 1;
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Error: Positive integer expected for argument " + arg, e);
+            throw new IllegalArgumentException("Error: Incorrect Argument Inputted For Number of Reps " + arg);
         }
     }
 
