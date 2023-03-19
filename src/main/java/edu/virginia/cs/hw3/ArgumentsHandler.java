@@ -10,9 +10,9 @@ public class ArgumentsHandler {
     private final Configuration config;
 
     public ArgumentsHandler(List<String> arguments) {
-        if (arguments.isEmpty()) {
+        if (arguments.size() < 1) {
             throw new IllegalArgumentException("Error: No arguments were included at runtime. Arguments expected\n" +
-                    "statePopulationFilename [number of representatives] [--hamilton]");
+                    "statePopulationFilename");
         }
         this.arguments = arguments;
         this.config = new Configuration();
