@@ -13,7 +13,7 @@
 * At the end of the command to run the jar file, optional flags and arguments can be specified 
   * long flags
     * --reps [integer] - must be followed by a positive (non-zero, non-negative) integer: defaults to --reps 435 
-    * --format formatName - set the format name. Format choices:
+    * --format formatName - set the format name.
       * --format alpha - print States (AlphabeticalApportionmentFormat): this is the default value 
       * --format benefit - prints States by benefit (RelativeBenefitFormat)
     * algorithm strategyName - set the Apportionment strategy 
