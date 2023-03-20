@@ -73,9 +73,15 @@ public class ExcelStateReader extends StateReader{
 
     private void addStateFromRow(Row currentRow) {
         String stateName = currentRow.getCell(NAME_COLUMN_INDEX).getStringCellValue().strip();
-        //if (stateName.isEmpty()) continue;
+        if (stateName.isEmpty()) {
+            System.err.println("Warning: Skipping row with empty state name");
+            return;
+        }
         int statePopulation = (int) currentRow.getCell(POPULATION_COLUMN_INDEX).getNumericCellValue();
-        //if (statePopulation <= 0) continue;
+        if (statePopulation <= 0) {
+            System.err.println("Warning: Skipping row with non-positive population");
+            return;
+        }
         State newState = new State(stateName, statePopulation);
         stateList.add(newState);
     }
